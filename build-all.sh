@@ -6,7 +6,7 @@ docker compose down
 
 echo "Build Maven per tutti i progetti..."
 
-for project in rachael-eureka-server rachael-config-server rachael-api-user
+for project in rachael-eureka-server rachael-config-server rachael-api-user rachael-api-wallet rachael-api-album rachael-frontend
 do
   echo "Building $project..."
   cd "$project"
