@@ -11,7 +11,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        database-platform: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.MariaDBDialect
 
 server:
   port: 8901
