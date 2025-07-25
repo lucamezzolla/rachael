@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: rachael-api-user
+  cloud:
+    config:
+      uri: http://rachael-config:8888
+      label: development
+  config:
+    import: "configserver:"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://rachael-eureka:8761/eureka
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 10  # default è 30
+  instance:
+    preferIpAddress: false
+    hostname: rachael-api-user

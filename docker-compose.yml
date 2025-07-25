@@ -1,0 +1,53 @@
+services:
+  rachael-eureka:
+    build: ./rachael-eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - rachael-net
+
+  rachael-config:
+    build: ./rachael-config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - rachael-eureka
+    networks:
+      - rachael-net
+
+  rachael-api-user:
+    build: ./rachael-api-user
+    ports:
+      - "8900:8900"
+    depends_on:
+      - rachael-eureka
+      - rachael-config
+      - rachael-mariadb
+    restart: on-failure 
+    networks:
+      - rachael-net
+
+  rachael-mariadb:
+    image: mariadb:11
+    container_name: rachael-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rachael-root
+      MARIADB_DATABASE: rachael_user_db
+      MARIADB_USER: rachael
+      MARIADB_PASSWORD: rachael
+    ports:
+      - "3306:3306"
+    volumes:
+      - rachael-mariadb-data:/var/lib/mysql
+    networks:
+      - rachael-net
+
+volumes:
+  rachael-mariadb-data:
+
+
+networks:
+  rachael-net:
+    driver: bridge
+

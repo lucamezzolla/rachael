@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: rachael-api-album
+  datasource:
+    url: jdbc:mariadb://rachael-mariadb:3306/rachael_album_db
+    username: luca
+    password: trustno1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+server:
+  port: 8902
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
