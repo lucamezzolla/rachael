@@ -3,8 +3,8 @@ spring:
     name: rachael-api-album
   datasource:
     url: jdbc:mariadb://rachael-mariadb:3306/rachael_album_db
-    username: luca
-    password: trustno1
+    username: rachael
+    password: rachael
   jpa:
     hibernate:
       ddl-auto: update
