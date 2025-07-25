@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: rachael-api-wallet
+  cloud:
+    config:
+      uri: http://localhost:8888
+      label: development
+  config:
+    import: "configserver:"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+  instance:
+    preferIpAddress: false
+    hostname: rachael-api-wallet
