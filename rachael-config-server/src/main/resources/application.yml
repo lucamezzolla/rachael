@@ -8,9 +8,11 @@ spring:
     config:
       server:
         git:
-          uri: https://lucamezzolla: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@github.com/lucamezzolla/rachael-config-repo.git
-          clone-on-start: true
+          uri: https://github.com/rachael/rachael-config-repo.git
           default-label: development
+          username: lucamezzolla
+          password: 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
+          clone-on-start: true
 
 eureka:
   client:
