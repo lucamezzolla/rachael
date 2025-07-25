@@ -2,7 +2,7 @@
 
 set -e  # esci al primo errore
 
-docker compose down -v
+docker compose down
 
 echo "Build Maven per tutti i progetti..."
 

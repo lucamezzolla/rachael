@@ -27,6 +27,30 @@ services:
     networks:
       - rachael-net
 
+  rachael-api-wallet:
+      build: ./rachael-api-wallet
+      ports:
+        - "8901:8901"
+      depends_on:
+        - rachael-eureka
+        - rachael-config
+        - rachael-mariadb
+      restart: on-failure 
+      networks:
+        - rachael-net
+
+  rachael-api-album:
+      build: ./rachael-api-album
+      ports:
+        - "8902:8902"
+      depends_on:
+        - rachael-eureka
+        - rachael-config
+        - rachael-mariadb
+      restart: on-failure 
+      networks:
+        - rachael-net
+
   rachael-mariadb:
     image: mariadb:11
     container_name: rachael-mariadb
