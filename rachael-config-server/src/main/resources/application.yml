@@ -8,7 +8,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/rachael/rachael-config-repo.git
+          uri: https://github.com/lucamezzolla/rachael.git
+          searchPaths: rachael-config-repo
           default-label: development
           username: lucamezzolla
           password: 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
@@ -17,4 +18,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://rachael-eureka:8761/eureka					
+      defaultZone: http://rachael-eureka:8761/eureka

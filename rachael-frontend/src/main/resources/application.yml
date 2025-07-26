@@ -18,6 +18,7 @@ logging:
     cutalab.rachael.backend.proxy: DEBUG
 
 vaadin:
+  productionMode: true
   launch-browser: true
   allowed-packages:
     - com.vaadin
@@ -28,7 +29,7 @@ vaadin:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://rachael-eureka:8761/eureka
     fetch-registry: true
     register-with-eureka: true
 

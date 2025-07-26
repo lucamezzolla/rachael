@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: rachael-frontend
+  cloud:
+    config:
+      uri: http://rachael-config:8888
+      label: development
+  config:
+    import: "configserver:"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://rachael-eureka:8761/eureka
+    register-with-eureka: true
+  instance:
+    preferIpAddress: true
+    hostname: rachael-frontend
+
+server:
+  port: 8080

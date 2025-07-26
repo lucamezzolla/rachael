@@ -23,7 +23,7 @@ services:
       - rachael-eureka
       - rachael-config
       - rachael-mariadb
-    restart: on-failure 
+    restart: on-failure
     networks:
       - rachael-net
 
@@ -35,7 +35,7 @@ services:
         - rachael-eureka
         - rachael-config
         - rachael-mariadb
-      restart: on-failure 
+      restart: on-failure
       networks:
         - rachael-net
 
@@ -47,9 +47,19 @@ services:
         - rachael-eureka
         - rachael-config
         - rachael-mariadb
-      restart: on-failure 
+      restart: on-failure
       networks:
         - rachael-net
+
+  rachael-frontend:
+    build: ./rachael-frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rachael-eureka
+      - rachael-config
+    networks:
+      - rachael-net
 
   rachael-mariadb:
     image: mariadb:11
