@@ -40,7 +40,7 @@ public class UserView extends VerticalLayout {
 	public UserView(UserService userService) {
 		this.userService = userService;
         setSizeFull();
-        setAlignItems(Alignment.CENTER);
+        setAlignItems(Alignment.START);
         addClassName(LumoUtility.Padding.MEDIUM);
         add(new ViewToolbar(UIConstant.USER_VIEW));
         var addUserButton = new Button(UserConstant.USER_FIELD_ADD_USER, e -> openUserDialog(UserDialogType.CREATE, null));

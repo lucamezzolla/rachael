@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -31,7 +32,6 @@ import cutalab.rachael.base.ui.view.costant.PaymentConstant.PaymentType;
 import cutalab.rachael.base.ui.view.costant.UIConstant;
 import cutalab.rachael.util.DateUtils;
 import cutalab.rachael.util.LoggerHelper;
-import io.netty.handler.codec.string.StringDecoder;
 import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = "wallet", layout = MainLayout.class)
@@ -46,13 +46,15 @@ public class WalletView extends VerticalLayout {
     private Grid<Payment> grid;
     private ComboBox<PaymentType> paymentTypeCombo;
     private NumberField yearTextField;
+
+	private Span noRecordSpan;
     
     private static final Logger log = LoggerHelper.getLogger(WalletView.class);
 
     public WalletView(PaymentService paymentService) {
         this.paymentService = paymentService;
         setSizeFull();
-        setAlignItems(Alignment.CENTER);
+        setAlignItems(Alignment.START);
         addClassName(LumoUtility.Padding.MEDIUM);
 
         add(new ViewToolbar(UIConstant.WALLET_VIEW));
@@ -125,6 +127,13 @@ public class WalletView extends VerticalLayout {
         });
         grid.setVisible(false);
         add(searchLayout, grid);
+        
+        //aggiungo e nascondo il messaggio di non aver trovato alcun pagamento
+        noRecordSpan = new Span(UIConstant.NO_RECORD_FOUND);
+        noRecordSpan.getStyle().set("color", "red");
+        noRecordSpan.getStyle().set("font-weight", "bold");
+        noRecordSpan.setVisible(false);
+        add(noRecordSpan);
     }
 
     private void fillGrid(PaymentType paymentType, int year) {
@@ -133,11 +142,10 @@ public class WalletView extends VerticalLayout {
         	request.setType(paymentType);
         	request.setYear(year);
             var response = paymentService.getAllPayments(request);
-            log.info("Ricevuti pagamenti: {}", response.getPayments().size());
             grid.setItems(response.getPayments());
             grid.setVisible(!response.getPayments().isEmpty());
+            noRecordSpan.setVisible(response.getPayments().isEmpty());
         } catch (Exception e) {
-            e.printStackTrace(); // 👈 così non perdi eventuali errori
             Notification.show("Errore nel caricamento dei pagamenti");
         }
     }
