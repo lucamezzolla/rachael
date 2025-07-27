@@ -7,15 +7,10 @@ spring:
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/lucamezzolla/rachael.git
-          searchPaths: rachael-config-repo
-          default-label: development
-          username: lucamezzolla
-          password: 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
-          clone-on-start: true
+        native:
+          search-locations: file:../rachael-config-repo
 
 eureka:
   client:
     service-url:
-      defaultZone: http://rachael-eureka:8761/eureka
+      defaultZone: http://localhost:8761/eureka
