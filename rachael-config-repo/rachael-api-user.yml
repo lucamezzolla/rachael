@@ -2,7 +2,7 @@ spring:
   application:
     name: rachael-api-user
   datasource:
-    url: jdbc:mariadb://localhost:3306/rachael_user_db
+    url: jdbc:mariadb://172.30.0.1:3306/rachael_user_db
     username: rachael
     password: rachael
   jpa:
@@ -15,8 +15,8 @@ spring:
 
 server:
   port: 8900
-  
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://rachael-eureka:8761/eureka
