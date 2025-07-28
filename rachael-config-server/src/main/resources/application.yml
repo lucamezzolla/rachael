@@ -10,7 +10,7 @@ spring:
         git:
           uri: https://github.com/lucamezzolla/rachael.git
           searchPaths: rachael-config-repo
-          default-label: development
+          default-label: master
           username: lucamezzolla
           password: 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
           clone-on-start: true
