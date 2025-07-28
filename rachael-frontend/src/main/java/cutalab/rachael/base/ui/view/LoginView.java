@@ -84,6 +84,9 @@ public class LoginView extends VerticalLayout {
         password.setWidth("300px");
         loginButton.setWidth("300px");
 
+        email.setValue("lucamezzolla@gmail.com"); // ❗ Solo per test
+        password.setValue("trustno1");
+
         loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         loginButton.addClickShortcut(Key.ENTER);
         loginButton.addClickListener(e -> handleLogin());
