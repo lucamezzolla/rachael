@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: rachael-frontend
+  cloud:
+    discovery:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    org.atmosphere: WARN
+    feign.Logger: DEBUG
+    feign.Request: DEBUG
+    feign.RequestInterceptor: DEBUG
+    feign.Client: DEBUG
+    cutalab.rachael.backend.proxy: DEBUG
+
+vaadin:
+  productionMode: true
+  launch-browser: true
+  allowed-packages:
+    - com.vaadin
+    - org.vaadin
+    - com.flowingcode
+    - cutalab.rachael
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
