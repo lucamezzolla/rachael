@@ -39,7 +39,7 @@ public class AlbumDialog extends Dialog {
     private TextField authorField;
     private TextField labelField;
     private TextField yearField;
-    private TextField reprintField;
+    private ComboBox<String> reprintField;
     private Checkbox openableField;
     private BigDecimalField valueField;
     private ComboBox<DiskStatusDTO> diskStatusCombo;
@@ -75,7 +75,7 @@ public class AlbumDialog extends Dialog {
         authorField = new TextField(AlbumConstant.DISK_FIELD_AUTHOR);
         labelField = new TextField(AlbumConstant.DISK_FIELD_LABEL);
         yearField = new TextField(AlbumConstant.DISK_FIELD_YEAR);
-        reprintField = new TextField(AlbumConstant.DISK_FIELD_REPRINT);
+        reprintField = new ComboBox<>(AlbumConstant.DISK_FIELD_REPRINT);
         openableField = new Checkbox(AlbumConstant.DISK_FIELD_OPENABLE);
         valueField = new BigDecimalField(AlbumConstant.DISK_FIELD_VALUE);
         valueField.setPrefixComponent(new Span("€"));
@@ -85,6 +85,8 @@ public class AlbumDialog extends Dialog {
 
         diskStatusCombo = new ComboBox<>(AlbumConstant.DISK_FIELD_DISK_STATUS);
         coverStatusCombo = new ComboBox<>(AlbumConstant.DISK_FIELD_COVER_STATUS);
+        
+        reprintField.setItems("sì", "no");
 
         List<DiskStatusDTO> statuses = diskService.getAllStatuses();
 
@@ -104,12 +106,17 @@ public class AlbumDialog extends Dialog {
         
         var intLayout01 = new HorizontalLayout(diskStatusCombo, coverStatusCombo);
         intLayout01.setWidthFull();
+        
+        var intLayout02 = new HorizontalLayout(yearField, reprintField);
+        intLayout02.setWidthFull();
 
         VerticalLayout main = new VerticalLayout(
-            titleField, authorField, labelField, yearField,
-            reprintField, openableField, valueField,
+            titleField, authorField, labelField, 
+            intLayout02,
+            valueField,
             intLayout01,
-            noteArea
+            noteArea,
+            openableField
         );
         main.setPadding(false);
         main.setSpacing(true);
