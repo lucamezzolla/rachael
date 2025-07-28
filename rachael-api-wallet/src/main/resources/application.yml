@@ -4,7 +4,7 @@ spring:
   cloud:
     config:
       uri: http://rachael-config:8888
-      label: development
+      label: master
   config:
     import: "configserver:"
 
