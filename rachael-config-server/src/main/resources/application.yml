@@ -12,7 +12,7 @@ spring:
           searchPaths: rachael-config-repo
           default-label: development
           username: lucamezzolla
-          password: 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
+          password: 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
           clone-on-start: true
 
 eureka:
