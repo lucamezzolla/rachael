@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -49,12 +50,13 @@ public class AlbumView extends VerticalLayout {
         addUDiskButton.setPrefixComponent(VaadinIcon.PLUS.create());
         addUDiskButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         grid = new Grid<>();
-        grid.addColumn(DiskSummaryDTO::getId)
-	        .setHeader("ID")
-	        .setAutoWidth(true)
-	        .setFlexGrow(0);
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 	    grid.addColumn(DiskSummaryDTO::getTitle)
 	        .setHeader(AlbumConstant.DISK_FIELD_TITLE)
+	        .setAutoWidth(true)
+	        .setFlexGrow(0);
+	    grid.addColumn(DiskSummaryDTO::getAuthor)
+	        .setHeader(AlbumConstant.DISK_FIELD_AUTHOR)
 	        .setFlexGrow(1);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid.addItemDoubleClickListener(e -> {
