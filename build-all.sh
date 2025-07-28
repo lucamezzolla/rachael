@@ -1,16 +1,20 @@
 #!/bin/bash
 
-set -e  # Esci al primo errore
+set -e  # Ferma lo script al primo errore
 
+echo "Arresto e rimozione dei container Docker attivi..."
 docker compose down
 
-echo "Build Maven per tutti i progetti..."
+echo "Pulizia delle immagini Docker inutilizzate..."
+docker image prune -af
+
+echo "Build Maven per tutti i progetti backend..."
 
 for project in rachael-eureka-server rachael-config-server rachael-api-user rachael-api-wallet rachael-api-album
 do
   echo "Building $project..."
   cd "$project"
-  chmod +x mvnw  # se mancano i permessi
+  chmod +x mvnw  # Garantisce esecuzione di Maven wrapper
   ./mvnw clean package -DskipTests
   cd ..
 done
@@ -21,8 +25,10 @@ chmod +x mvnw
 ./mvnw clean package -Pproduction -DskipTests
 cd ..
 
-echo "Avvio dei container Docker..."
-docker compose up --build -d
+echo "Rebuild e avvio dei container Docker..."
+docker compose build --no-cache
+docker compose up -d
 
-echo "Tutto avviato. Controlla i log con: docker compose logs -f"
+echo "Tutto avviato. Controlla i log con:"
+echo "   docker compose logs -f"
 
