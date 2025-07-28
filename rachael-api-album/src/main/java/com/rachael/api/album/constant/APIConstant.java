@@ -20,16 +20,27 @@ public class APIConstant {
     public static final String ALBUMCONTOLLER_TAG_NAME = "Album";
     public static final String ALBUMCONTROLLER_TAG_DESCRIPTION = "Operazioni relative agli album";
     
-//    public static final String ALBUM_CREATE_MAPPING = "";
-    public static final String ALBUM_GET_ALL_MAPPING = "/find";
-//    public static final String ALBUM_GET_BY_ID_MAPPING = "/{id}";
-//    public static final String ALBUM_UPDATE_MAPPING = "/{id}";
-//    public static final String ALBUM_DELETE_MAPPING = "/{id}";
     
     // Recupera tutti gli album
     public static final String ALBUM_GET_ALL_OPERATION_SUMMARY = "Album";
     public static final String ALBUM_GET_ALL_OPERATION_DESCRIPTION = "Album";
+    public static final String ALBUM_GET_ALL_MAPPING = "/find";
 
+    
+    // Mapping endpoint singoli
+    public static final String DISK_GET_BY_ID_MAPPING = "/{id}";
+    public static final String DISK_CREATE_MAPPING = "";
+    public static final String DISK_UPDATE_MAPPING = "/{id}";
+    public static final String DISK_STATUS = "/status";
 
+    // Descrizioni OpenAPI (opzionali)
+    public static final String DISK_GET_BY_ID_SUMMARY = "Recupera un disco per ID";
+    public static final String DISK_GET_BY_ID_DESCRIPTION = "Restituisce un singolo disco in base all'ID";
+
+    public static final String DISK_CREATE_SUMMARY = "Crea un nuovo disco";
+    public static final String DISK_CREATE_DESCRIPTION = "Salva un nuovo disco con tutti i dettagli forniti";
+
+    public static final String DISK_UPDATE_SUMMARY = "Aggiorna un disco esistente";
+    public static final String DISK_UPDATE_DESCRIPTION = "Aggiorna i dati di un disco già presente";
     
 }

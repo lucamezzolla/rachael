@@ -8,7 +8,9 @@ public class ErrorMessages {
     public static final String INVALID_CREDENTIALS = "Credenziali non valide.";
     
     //ALBUM
-    public static final String ALBUM_NOT_FOUND = "Album non trovato con id: ";
+    public static final String ALBUM_NOT_FOUND = "Disco non trovato con id: ";
+    public static final String INVALID_ALBUM_STATUS = "Lo stato del disco non è valido";
+    public static final String INVALID_ALBUM_COVER_STATUS = "Lo stato della copertina del disco non è valido";
     public static final String TOKEN_NOT_FOUND = "Token JWT mancante nell'header Authorization";
     public static final String INVALID_TOKEN = "Token JWT non valido";
     public static final String ON_CREATE_ERROR = "Errore durante salvataggio album";
