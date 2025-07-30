@@ -10,6 +10,8 @@ public class UIConstant {
 	public static final String ALBUM_VIEW = "Album";
 
 	public static final String NO_RECORD_FOUND = "Attenzione. Nessun record trovato.";
+	public static final String ERROR = "Errore. Non è stato possibile salvare il record.";
+	public static final String SAVED = "Record salvato.";
 	
 	private UIConstant() { }
 

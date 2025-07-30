@@ -1,12 +1,15 @@
 package cutalab.rachael.base.ui.component.dialog;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -17,9 +20,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
 import cutalab.rachael.backend.dto.album.DiskDTO;
+import cutalab.rachael.backend.dto.album.DiskGenreDTO;
 import cutalab.rachael.backend.dto.album.DiskRequestDTO;
 import cutalab.rachael.backend.dto.album.DiskStatusDTO;
+import cutalab.rachael.backend.dto.album.DiskStyleDTO;
 import cutalab.rachael.backend.dto.service.DiskService;
+import cutalab.rachael.base.ui.util.NotificationUtil;
+import cutalab.rachael.base.ui.util.NotificationUtil.Duration;
+import cutalab.rachael.base.ui.util.NotificationUtil.Type;
 import cutalab.rachael.base.ui.util.SessionUtil;
 import cutalab.rachael.base.ui.view.costant.AlbumConstant;
 import cutalab.rachael.base.ui.view.costant.AlbumConstant.AlbumDialogType;
@@ -46,6 +54,10 @@ public class AlbumDialog extends Dialog {
     private ComboBox<DiskStatusDTO> coverStatusCombo;
     private TextArea noteArea;
 
+	private MultiSelectComboBox<DiskGenreDTO> genreMultiSelect;
+
+	private MultiSelectComboBox<DiskStyleDTO> styleMultiSelect;
+
     public AlbumDialog(AlbumDialogType dialogType, DiskDTO disk, DiskService diskService, Runnable onSuccess) {
         this.disk = disk != null ? disk : new DiskDTO();
         if (this.disk.getGenres() == null) this.disk.setGenres(new ArrayList<>());
@@ -56,7 +68,7 @@ public class AlbumDialog extends Dialog {
         this.onSuccess = onSuccess;
         this.binder = new Binder<>(DiskDTO.class);
 
-        setWidth("600px");
+        setWidth("80%");
         setMaxHeight("90%");
         setCloseOnEsc(true);
         setCloseOnOutsideClick(false);
@@ -79,6 +91,8 @@ public class AlbumDialog extends Dialog {
         openableField = new Checkbox(AlbumConstant.DISK_FIELD_OPENABLE);
         valueField = new BigDecimalField(AlbumConstant.DISK_FIELD_VALUE);
         valueField.setPrefixComponent(new Span("€"));
+        
+        openableField.getStyle().set("margin-top", "10px");
         
         titleField.setWidthFull(); authorField.setWidthFull(); labelField.setWidthFull();
         yearField.setWidthFull(); reprintField.setWidthFull();  valueField.setWidthFull();
@@ -104,24 +118,42 @@ public class AlbumDialog extends Dialog {
         noteArea = new TextArea(AlbumConstant.DISK_FIELD_NOTE);
         noteArea.setWidthFull();
         
+        genreMultiSelect = buildGenreList();
+        styleMultiSelect = buildStyleList();
+        
         var intLayout01 = new HorizontalLayout(diskStatusCombo, coverStatusCombo);
         intLayout01.setWidthFull();
         
         var intLayout02 = new HorizontalLayout(yearField, reprintField);
         intLayout02.setWidthFull();
+        
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setMargin(false);
+        hl.setSizeFull();
 
-        VerticalLayout main = new VerticalLayout(
-            titleField, authorField, labelField, 
+        VerticalLayout vl = new VerticalLayout(
+            titleField,
+            genreMultiSelect,
+            labelField, 
             intLayout02,
-            valueField,
-            intLayout01,
-            noteArea,
-            openableField
+            intLayout01
         );
-        main.setPadding(false);
-        main.setSpacing(true);
-
-        add(main);
+        vl.setPadding(false);
+        vl.setSpacing(true);
+        
+        VerticalLayout vl2 = new VerticalLayout(
+        	authorField, 
+    		styleMultiSelect,
+    		valueField,
+    		noteArea,
+    		openableField
+		);
+        vl2.setPadding(false);
+        vl2.setSpacing(true);
+        vl2.setMargin(false);
+        
+        hl.add(vl, vl2);
+        add(hl);
 
         Button cancelButton = new Button(UIConstant.CANCEL, e -> close());
         Button saveButton = new Button(UIConstant.SAVE, e -> save());
@@ -132,11 +164,11 @@ public class AlbumDialog extends Dialog {
 
     private void bindFields() {
         binder.forField(titleField)
-            .asRequired(AlbumConstant.DISK_VALIDATION_TITLE)
+            .asRequired(AlbumConstant.DISK_VALIDATION_FIELD)
             .bind(DiskDTO::getTitle, DiskDTO::setTitle);
 
         binder.forField(authorField)
-            .asRequired(AlbumConstant.DISK_VALIDATION_AUTHOR)
+            .asRequired(AlbumConstant.DISK_VALIDATION_FIELD)
             .bind(DiskDTO::getAuthor, DiskDTO::setAuthor);
 
         binder.forField(labelField)
@@ -155,13 +187,26 @@ public class AlbumDialog extends Dialog {
             .bind(DiskDTO::getPresumedValue, DiskDTO::setPresumedValue);
 
         binder.forField(diskStatusCombo)
-        .asRequired(AlbumConstant.DISK_VALIDATION_STATUS)
+        .asRequired(AlbumConstant.DISK_VALIDATION_FIELD)
         .bind(DiskDTO::getDiskStatus, DiskDTO::setDiskStatus);
 
-    binder.forField(coverStatusCombo)
-    	.asRequired(AlbumConstant.DISK_VALIDATION_STATUS)
+        binder.forField(coverStatusCombo)
+    	.asRequired(AlbumConstant.DISK_VALIDATION_FIELD)
         .bind(DiskDTO::getCoverStatus, DiskDTO::setCoverStatus);
+        
+        binder.forField(genreMultiSelect)
+        .asRequired(AlbumConstant.DISK_VALIDATION_FIELD)
+        .bind(
+            dto -> new HashSet<>(dto.getGenres()),
+            (dto, selected) -> dto.setGenres(new ArrayList<>(selected))
+        );
 
+        binder.forField(styleMultiSelect)
+        .asRequired(AlbumConstant.DISK_VALIDATION_FIELD)
+        .bind(
+            dto -> new HashSet<>(dto.getStyles()),
+            (dto, selected) -> dto.setStyles(new ArrayList<>(selected))
+        );
 
         binder.forField(noteArea)
             .bind(DiskDTO::getNote, DiskDTO::setNote);
@@ -172,16 +217,16 @@ public class AlbumDialog extends Dialog {
             try {
                 binder.writeBean(disk);
                 DiskRequestDTO request = toRequest(disk);
-
                 if (dialogType == AlbumDialogType.CREATE) {
                     diskService.createDisk(request);
                 } else {
                     diskService.updateDisk(disk.getId(), request);
                 }
+                NotificationUtil.show(UIConstant.SAVED, Duration.FAST, Type.SUCCESS);
                 onSuccess.run();
                 close();
             } catch (Exception e) {
-                e.printStackTrace();
+            	NotificationUtil.show(UIConstant.ERROR, Duration.FAST, Type.ERROR);
             }
         }
     }
@@ -203,6 +248,30 @@ public class AlbumDialog extends Dialog {
         request.setStyles(disk.getStyles());
         request.setUserId(Long.valueOf(SessionUtil.getCurrentUser().getId()));
         return request;
+    }
+    
+    private MultiSelectComboBox<DiskGenreDTO> buildGenreList() {
+        var allGenres = diskService.getAllGenres().getGenres();
+        MultiSelectComboBox<DiskGenreDTO> listBox = new MultiSelectComboBox<>(AlbumConstant.ADD_GENRE);
+        listBox.setItemLabelGenerator(DiskGenreDTO::getName);
+        listBox.setWidthFull();
+        listBox.setItems(allGenres);
+        if(Objects.nonNull(disk.getGenres())) {
+        	listBox.select(disk.getGenres());
+        }  
+        return listBox;
+    }
+
+    private MultiSelectComboBox<DiskStyleDTO> buildStyleList() {
+        var allStyles = diskService.getAllStyles().getStyles();
+        MultiSelectComboBox<DiskStyleDTO> listBox = new MultiSelectComboBox<>(AlbumConstant.ADD_STYLE);
+        listBox.setItemLabelGenerator(DiskStyleDTO::getName);
+        listBox.setWidthFull();
+        listBox.setItems(allStyles);
+        if(Objects.nonNull(disk.getStyles())) {
+        	listBox.select(disk.getStyles());
+        }
+        return listBox;
     }
 
 }
