@@ -6,6 +6,7 @@ import cutalab.rachael.backend.dto.user.UserListResponse;
 import cutalab.rachael.backend.dto.user.UserLoginRequest;
 import cutalab.rachael.backend.dto.user.UserRequest;
 import cutalab.rachael.backend.dto.user.UserResponse;
+import cutalab.rachael.backend.dto.user.UserUpdateRequest;
 import cutalab.rachael.backend.model.User;
 
 public interface UserService {
@@ -14,8 +15,8 @@ public interface UserService {
     User getUserById(Long id);
     UserListResponse getAllUsers();
     UserResponse createUser(UserRequest request);
-    UserResponse updateUser(Long id, UserRequest request);
-    GenericResponse changePassword(ChangePasswordRequest request);
+    UserResponse updateUser(Long id, UserUpdateRequest request);
+    GenericResponse changePassword(Long id, ChangePasswordRequest request);
     UserResponse deleteUser(Long id);
     
 }

@@ -30,16 +30,20 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import cutalab.rachael.backend.dto.service.PaymentService;
 import cutalab.rachael.backend.dto.service.UserService;
 import cutalab.rachael.backend.model.User;
+import cutalab.rachael.base.ui.component.dialog.UserDialog;
 import cutalab.rachael.base.ui.util.SessionUtil;
+import cutalab.rachael.base.ui.view.costant.UserConstant.UserDialogType;
 
 @Layout
 public final class MainLayout extends AppLayout {
 
 	private static final long serialVersionUID = 5489847396390229579L;
+	private UserService userService;
 	private User currentUser;
 
 	public MainLayout(@Autowired UserService userService, @Autowired PaymentService paymentService) {
 		this.currentUser = SessionUtil.getCurrentUser();
+		this.userService = userService;
 		buildLayout();
 	}
 
@@ -79,14 +83,18 @@ public final class MainLayout extends AppLayout {
 		nav.addItem(albumSideNavItem);
 		
 		// Aggiunge voce: Wallet
-		var walletIcon = VaadinIcon.WALLET.create();
-		var walletSideNavItem = new SideNavItem("Wallet", WalletView.class, walletIcon);
-		nav.addItem(walletSideNavItem);
+		if (currentUser != null && currentUser.getRoles().contains("ADMIN")) {
+			var walletIcon = VaadinIcon.WALLET.create();
+			var walletSideNavItem = new SideNavItem("Wallet", WalletView.class, walletIcon);
+			nav.addItem(walletSideNavItem);
+		}
 
 		// Aggiunge voce: Gestione utenti
-		var userIcon = VaadinIcon.USERS.create();
-		var userSideNavItem = new SideNavItem("Utenti", UserView.class, userIcon);
-		nav.addItem(userSideNavItem);
+		if (currentUser != null && currentUser.getRoles().contains("ADMIN")) {
+			var userIcon = VaadinIcon.USERS.create();
+			var userSideNavItem = new SideNavItem("Utenti", UserView.class, userIcon);
+			nav.addItem(userSideNavItem);
+		}
 
 		return nav;
 	}
@@ -108,13 +116,17 @@ public final class MainLayout extends AppLayout {
 			userMenu.addClassNames(Margin.MEDIUM);
 			var userMenuItem = userMenu.addItem(avatar);
 			userMenuItem.add(currentUser.getName());
-			userMenuItem.getSubMenu().addItem("View Profile");
+			userMenuItem.getSubMenu().addItem("Profilo", event -> openProfile());
 			userMenuItem.getSubMenu().addItem("Logout", event -> SessionUtil.logout());
 			return userMenu;
 		}
 		return null;
 	}
 
+	private void openProfile() {
+		var dialog = new UserDialog(UserDialogType.UPDATE, currentUser, userService, null);
+		dialog.open();
+	}
 	
 
 }

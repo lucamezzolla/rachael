@@ -36,7 +36,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = "wallet", layout = MainLayout.class)
 @PageTitle("Wallet | Rachael App")
-@RolesAllowed("USER")
+@RolesAllowed("ADMIN")
 @PreserveOnRefresh
 public class WalletView extends VerticalLayout {
 

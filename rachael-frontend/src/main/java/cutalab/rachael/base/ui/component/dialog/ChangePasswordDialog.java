@@ -66,14 +66,11 @@ public class ChangePasswordDialog extends Dialog {
 
     private void savePassword(Long userId) {
         ChangePasswordRequest request = new ChangePasswordRequest();
-        request.setId(userId);
         request.setPassword(newPasswordField.getValue());
-
         try {
             binder.writeBean(request);
-            GenericResponse response = userService.changePassword(request);
+            GenericResponse response = userService.changePassword(userId, request);
             NotificationUtil.show(response.getMessage(), Duration.FAST, Type.SUCCESS);
-            Notification.show(response.getMessage(), 3000, Position.TOP_CENTER);
             close();
         } catch (ValidationException e) {
             NotificationUtil.show(ValidationConstant.VALIDATION_ERROR, Duration.FAST, Type.ERROR);

@@ -1,5 +1,6 @@
 package cutalab.rachael.base.ui.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -83,12 +84,14 @@ public class LoginView extends VerticalLayout {
         email.setWidth("300px");
         password.setWidth("300px");
         loginButton.setWidth("300px");
-
+        
         loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         loginButton.addClickShortcut(Key.ENTER);
         loginButton.addClickListener(e -> handleLogin());
 
         add(title, subtitle, img, email, password, loginButton);
+        
+        email.focus();
     }
 
     private void handleLogin() {
@@ -100,16 +103,30 @@ public class LoginView extends VerticalLayout {
             UserResponse response = userService.login(request);
 
             if (response != null && response.getToken() != null) {
-                User user = new User();
+                
+            	User user = new User();
                 user.setId(response.getId());
                 user.setEmail(response.getEmail());
                 user.setName(response.getName());
                 user.setToken(response.getToken());
+                
+                var roles = new ArrayList<String>();
+                roles.add("USER");
+                user.setRoles(roles);
+                
+                List<SimpleGrantedAuthority> authorities;
+                if (response.getId() == 1L) {
+                    authorities = List.of(
+                        new SimpleGrantedAuthority("ROLE_USER"),
+                        new SimpleGrantedAuthority("ROLE_ADMIN")
+                    );    
+                    user.getRoles().add("ADMIN");
+                } else {
+                    authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+                }
+                
                 SessionUtil.setCurrentUser(user);
-
-                List<SimpleGrantedAuthority> authorities =
-                    List.of(new SimpleGrantedAuthority("ROLE_USER"));
-
+                
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                     user.getEmail(), null, authorities
                 );

@@ -50,4 +50,9 @@ public class APIConstant {
     public static final String USERCONTROLLER_DELETE_OPERATION_SUMMARY = "Elimina utente";
     public static final String USERCONTROLLER_DELETE_OPERATION_DESCRIPTION = "Elimina un utente tramite il suo identificativo";
     
+    // PASSWORD
+    public static final String USERCONTROLLER_CHANGE_PASSWORD_MAPPING = "/{id}/password";
+    public static final String USERCONTROLLER_CHANGE_PASSWORD_OPERATION_SUMMARY = "Cambia password";
+    public static final String USERCONTROLLER_CHANGE_PASSWORD_OPERATION_DESCRIPTION = "Cambia la password di un utente tramite ID";
+    
 }

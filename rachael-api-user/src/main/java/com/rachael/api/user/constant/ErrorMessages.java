@@ -13,6 +13,7 @@ public class ErrorMessages {
     public static final String USER_NOT_FOUND_WITH_ID(Long id) {
     	return "Utente non trovato con id ".concat(String.valueOf(id));
     }
+    public static final String PASSWORD_EMPTY = "La nuova password non può essere vuota.";
     
     private ErrorMessages() {}
     

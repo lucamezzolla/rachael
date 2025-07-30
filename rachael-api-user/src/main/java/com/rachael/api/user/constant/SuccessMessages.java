@@ -9,10 +9,7 @@ public class SuccessMessages {
     public static final String USER_DELETED = "Utente eliminato con successo.";
     public static final String LOGIN_SUCCESS = "Login effettuato con successo";
     public static final String USERS_LIST_FOUND = "Lista utenti recuperata con successo.";
-    
-    //PAGAMENTO
-    public static final String PAYMENT_UPDATED = "Pagamento aggiornato con successo.";
-    public static final String PAYMENT_DELETED = "Pagamento eliminato con successo.";
+    public static final String PASSWORD_CHANGED = "Password aggiornata.";
     
     private SuccessMessages() {}
 

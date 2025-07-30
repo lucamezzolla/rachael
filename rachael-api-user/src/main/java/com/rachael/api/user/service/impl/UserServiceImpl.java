@@ -15,6 +15,7 @@ import com.rachael.api.user.constant.SuccessMessages;
 import com.rachael.api.user.dto.GenericResponse;
 import com.rachael.api.user.dto.UserListResponse;
 import com.rachael.api.user.dto.UserLoginRequest;
+import com.rachael.api.user.dto.UserPasswordRequest;
 import com.rachael.api.user.dto.UserRequest;
 import com.rachael.api.user.dto.UserResponse;
 import com.rachael.api.user.model.User;
@@ -71,13 +72,13 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user = userRepository.save(user);
         return UserResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .timestamp(LocalDateTime.now())
-                .httpStatus(HttpStatus.CREATED)
-                .message(SuccessMessages.USER_CREATED)
-                .build();
+            .id(user.getId())
+            .name(user.getName())
+            .email(user.getEmail())
+            .timestamp(LocalDateTime.now())
+            .httpStatus(HttpStatus.CREATED)
+            .message(SuccessMessages.USER_CREATED)
+            .build();
     }
 
     @Override
@@ -91,7 +92,6 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setName(request.getName());
         User updated = userRepository.save(user);
         return UserResponse.builder()
@@ -166,4 +166,31 @@ public class UserServiceImpl implements UserService {
                 .message(SuccessMessages.USER_DELETED)
                 .build();
     }
+
+    @Override
+    public GenericResponse changePassword(Long id, UserPasswordRequest request) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return GenericResponse.builder()
+                    .timestamp(LocalDateTime.now())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message(ErrorMessages.USER_NOT_FOUND_WITH_ID(id))
+                    .build();
+        }
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            return GenericResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(ErrorMessages.PASSWORD_EMPTY)
+                .build();
+        }
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+        return GenericResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .httpStatus(HttpStatus.OK)
+            .message(SuccessMessages.PASSWORD_CHANGED) 
+            .build();
+    }
+
 }

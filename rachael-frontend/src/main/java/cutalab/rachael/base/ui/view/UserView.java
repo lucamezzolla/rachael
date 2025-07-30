@@ -24,7 +24,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = "users", layout = MainLayout.class)
 @PageTitle("Utenti | Rachael App")
-@RolesAllowed("USER")
+@RolesAllowed("ADMIN")
 @PreserveOnRefresh
 public class UserView extends VerticalLayout {
     

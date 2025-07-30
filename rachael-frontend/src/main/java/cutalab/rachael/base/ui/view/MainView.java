@@ -41,17 +41,18 @@ public final class MainView extends VerticalLayout implements BeforeEnterObserve
 
 	MainView() {
 		setSizeFull();
-        setAlignItems(Alignment.CENTER);
+        setAlignItems(Alignment.START);
         addClassName(LumoUtility.Padding.MEDIUM);
         add(new ViewToolbar("Home Page"));
         Image img = new Image("images/tyrell_home.png", "Rachael");
         img.getStyle()
-           .set("width", "80%")
+           .set("width", "100%")
            .set("border", "1px black solid")
            .set("object-fit", "cover");
         Button newsButton = new Button("Ultime novità");
         newsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(img, newsButton);
+        setHorizontalComponentAlignment(Alignment.CENTER, img, newsButton);
     }
 
     /**

@@ -10,6 +10,7 @@ import cutalab.rachael.backend.dto.user.UserListResponse;
 import cutalab.rachael.backend.dto.user.UserLoginRequest;
 import cutalab.rachael.backend.dto.user.UserRequest;
 import cutalab.rachael.backend.dto.user.UserResponse;
+import cutalab.rachael.backend.dto.user.UserUpdateRequest;
 import cutalab.rachael.backend.model.User;
 import cutalab.rachael.backend.proxy.UserProxy;
 
@@ -51,13 +52,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(Long id, UserRequest request) {
+    public UserResponse updateUser(Long id, UserUpdateRequest request) {
         return userProxy.updateUser(id, request).getBody();
     }
     
     @Override
-    public GenericResponse changePassword(ChangePasswordRequest request) {
-        return userProxy.changePassword(request).getBody();
+    public GenericResponse changePassword(Long id, ChangePasswordRequest request) {
+        return userProxy.changePassword(id, request).getBody();
     }
 
     @Override

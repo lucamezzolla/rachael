@@ -3,6 +3,7 @@ package com.rachael.api.user.service;
 import com.rachael.api.user.dto.GenericResponse;
 import com.rachael.api.user.dto.UserListResponse;
 import com.rachael.api.user.dto.UserLoginRequest;
+import com.rachael.api.user.dto.UserPasswordRequest;
 import com.rachael.api.user.dto.UserRequest;
 import com.rachael.api.user.dto.UserResponse;
 
@@ -60,5 +61,14 @@ public interface UserService {
      * @return {@link GenericResponse} con informazioni sull'esito dell'operazione (successo o errore)
      */
     GenericResponse deleteUser(Long id);
+    
+    /**
+     * Cambia la password di un utente tramite ID.
+     *
+     * @param id identificativo dell'utente da aggiornare
+     * @param password da modificare
+     * @return {@link GenericResponse} con informazioni sull'esito dell'operazione (successo o errore)
+     */
+    GenericResponse changePassword(Long id, UserPasswordRequest request);
     
 }
