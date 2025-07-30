@@ -30,8 +30,6 @@ public class AlbumConstant {
 	public static final String ADD_STYLE = "Associa stili";
 
     // Messaggi di validazione
-    public static final String DISK_VALIDATION_TITLE = "Il titolo è obbligatorio";
-    public static final String DISK_VALIDATION_AUTHOR = "L'autore è obbligatorio";
-    public static final String DISK_VALIDATION_STATUS = "Lo stato è obbligatorio";
+    public static final String DISK_VALIDATION_FIELD = "Campo obbligatorio";
     
 }
