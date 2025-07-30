@@ -43,4 +43,7 @@ public class APIConstant {
     public static final String DISK_UPDATE_SUMMARY = "Aggiorna un disco esistente";
     public static final String DISK_UPDATE_DESCRIPTION = "Aggiorna i dati di un disco già presente";
     
+    public static final String DISK_ALL_GENRE_MAPPING = "/genres";
+    public static final String DISK_ALL_STYLE_MAPPING = "/styles";
+    
 }
