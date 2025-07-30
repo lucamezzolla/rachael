@@ -15,6 +15,7 @@ import cutalab.rachael.backend.dto.user.UserListResponse;
 import cutalab.rachael.backend.dto.user.UserLoginRequest;
 import cutalab.rachael.backend.dto.user.UserRequest;
 import cutalab.rachael.backend.dto.user.UserResponse;
+import cutalab.rachael.backend.dto.user.UserUpdateRequest;
 import cutalab.rachael.config.FeignAuthInterceptor;
 import cutalab.rachael.config.FeignConfig;
 
@@ -34,10 +35,10 @@ public interface UserProxy {
     ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id);
 
     @PutMapping("/api/user/{id}")
-    ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest request);
+    ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id, @RequestBody UserUpdateRequest request);
     
-    @PutMapping("/api/user/password")
-    ResponseEntity<GenericResponse> changePassword(@RequestBody ChangePasswordRequest request);
+    @PutMapping("/api/user/{id}/password")
+    ResponseEntity<GenericResponse> changePassword(@PathVariable("id") Long id, @RequestBody ChangePasswordRequest request);
 
     @DeleteMapping("/api/user/{id}")
     ResponseEntity<UserResponse> deleteUser(@PathVariable("id") Long id);

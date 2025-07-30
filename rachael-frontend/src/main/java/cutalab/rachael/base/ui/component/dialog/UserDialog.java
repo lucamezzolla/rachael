@@ -14,6 +14,7 @@ import com.vaadin.flow.data.validator.EmailValidator;
 import cutalab.rachael.backend.dto.service.UserService;
 import cutalab.rachael.backend.dto.user.UserRequest;
 import cutalab.rachael.backend.dto.user.UserResponse;
+import cutalab.rachael.backend.dto.user.UserUpdateRequest;
 import cutalab.rachael.backend.model.User;
 import cutalab.rachael.base.ui.view.costant.UIConstant;
 import cutalab.rachael.base.ui.view.costant.UserConstant;
@@ -80,7 +81,7 @@ public class UserDialog extends Dialog {
 			getFooter().add(cancelButton, submitButton);
 		} else {
 			changePasswordButton = new Button(UserConstant.USER_FIELD_CHANGE_PASSWORD, e -> openChangePasswordDialog());
-
+			nameTextField.setEnabled(false);
 			getFooter().add(cancelButton, changePasswordButton, submitButton);
 		}
 	}
@@ -111,15 +112,17 @@ public class UserDialog extends Dialog {
 		if (binder.validate().isOk()) {
 			try {
 				binder.writeBean(this.user);
-				UserRequest request = new UserRequest();
-				request.setName(user.getName());
-				request.setEmail(user.getEmail());
 				if (userDialogType == UserDialogType.CREATE) {
+					UserRequest request = new UserRequest();
+					request.setName(user.getName());
+					request.setEmail(user.getEmail());
 					request.setPassword(user.getPassword());
 					UserResponse response = userService.createUser(request);
 					Notification.show(response.getMessage(), 3000, Position.TOP_CENTER);
 				} else {
-					request.setPassword(null);
+					UserUpdateRequest request = new UserUpdateRequest();
+					request.setName(user.getName());
+					request.setEmail(user.getEmail());
 					UserResponse response = userService.updateUser(user.getId(), request);
 					Notification.show(response.getMessage(), 3000, Position.TOP_CENTER);
 				}

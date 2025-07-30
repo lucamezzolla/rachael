@@ -8,6 +8,7 @@ import com.rachael.api.user.constant.APIConstant;
 import com.rachael.api.user.dto.GenericResponse;
 import com.rachael.api.user.dto.UserListResponse;
 import com.rachael.api.user.dto.UserLoginRequest;
+import com.rachael.api.user.dto.UserPasswordRequest;
 import com.rachael.api.user.dto.UserRequest;
 import com.rachael.api.user.dto.UserResponse;
 import com.rachael.api.user.service.UserService;
@@ -114,6 +115,23 @@ public class UserController {
     @DeleteMapping(APIConstant.USERCONTROLLER_DELETE_MAPPING)
     public ResponseEntity<GenericResponse> deleteUser(@PathVariable Long id) {
         GenericResponse response = userService.deleteUser(id);
+        return ResponseEntity.status(response.getHttpStatus()).body(response);
+    }
+    
+    /**
+     * Cambia la password di un utente tramite ID.
+     *
+     * @param id identificativo dell'utente da aggiornare
+     * @param password da modificare
+     * @return {@link GenericResponse} con informazioni sull'esito dell'operazione (successo o errore)
+     */
+    @Operation(
+        summary = APIConstant.USERCONTROLLER_CHANGE_PASSWORD_OPERATION_SUMMARY,
+        description = APIConstant.USERCONTROLLER_CHANGE_PASSWORD_OPERATION_DESCRIPTION
+    )
+    @PutMapping(APIConstant.USERCONTROLLER_CHANGE_PASSWORD_MAPPING)
+    public ResponseEntity<GenericResponse> changePassword(@PathVariable Long id, @RequestBody UserPasswordRequest request) {
+    	GenericResponse response = userService.changePassword(id, request);
         return ResponseEntity.status(response.getHttpStatus()).body(response);
     }
     

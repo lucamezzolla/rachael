@@ -16,7 +16,7 @@ import cutalab.rachael.base.ui.view.LoginView;
 public class SecurityConfig extends VaadinWebSecurity {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // ✋ pubblica immagini e login prima di super.configure()
+        // pubblica immagini e login prima di super.configure()
         http.authorizeHttpRequests(auth -> auth
             .requestMatchers("/images/**", "/login").permitAll()
         );
@@ -30,4 +30,5 @@ public class SecurityConfig extends VaadinWebSecurity {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
 }
