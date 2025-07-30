@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rachael.api.album.constant.APIConstant;
 import com.rachael.api.album.dto.AlbumListResponse;
+import com.rachael.api.album.dto.DiskGenreListResponse;
 import com.rachael.api.album.dto.DiskListRequest;
 import com.rachael.api.album.dto.DiskListResponse;
 import com.rachael.api.album.dto.DiskRequest;
 import com.rachael.api.album.dto.DiskResponse;
+import com.rachael.api.album.dto.DiskStyleListResponse;
 import com.rachael.api.album.model.DiskStatus;
 import com.rachael.api.album.service.DiskService;
 
@@ -71,5 +73,17 @@ public class AlbumController {
 	public ResponseEntity<List<DiskStatus>> getAllDiskStatuses() {
 	    return ResponseEntity.ok(diskService.getAllStatuses());
 	}
+	
+	@GetMapping(APIConstant.DISK_ALL_GENRE_MAPPING)
+    public ResponseEntity<DiskGenreListResponse> getAllGenres() {
+		DiskGenreListResponse genres = diskService.getAllGenre();
+        return ResponseEntity.ok(genres);
+    }
+	
+	@GetMapping(APIConstant.DISK_ALL_STYLE_MAPPING)
+    public ResponseEntity<DiskStyleListResponse> getAllStyles() {
+		DiskStyleListResponse styles = diskService.getAllStyle();
+        return ResponseEntity.ok(styles);
+    }
 
 }

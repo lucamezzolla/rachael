@@ -3,20 +3,25 @@ package com.rachael.api.album.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springdoc.api.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rachael.api.album.constant.ErrorMessages;
+import com.rachael.api.album.dto.DiskGenreDTO;
+import com.rachael.api.album.dto.DiskGenreListResponse;
 import com.rachael.api.album.dto.DiskListRequest;
 import com.rachael.api.album.dto.DiskListResponse;
 import com.rachael.api.album.dto.DiskRequest;
 import com.rachael.api.album.dto.DiskResponse;
+import com.rachael.api.album.dto.DiskStyleDTO;
+import com.rachael.api.album.dto.DiskStyleListResponse;
 import com.rachael.api.album.dto.DiskSummary;
 import com.rachael.api.album.model.Disk;
 import com.rachael.api.album.model.DiskStatus;
+import com.rachael.api.album.repository.DiskGenreRepository;
 import com.rachael.api.album.repository.DiskRepository;
 import com.rachael.api.album.repository.DiskStatusRepository;
+import com.rachael.api.album.repository.DiskStyleRepository;
 import com.rachael.api.album.service.DiskService;
 
 @Service
@@ -24,6 +29,12 @@ public class DiskServiceImpl implements DiskService {
 	
     @Autowired
     private DiskRepository diskRepository;
+    
+    @Autowired
+    private DiskGenreRepository genreRepository;
+    
+    @Autowired
+    private DiskStyleRepository styleRepository;
     
     @Autowired
     private DiskStatusRepository diskStatusRepository;
@@ -129,5 +140,21 @@ public class DiskServiceImpl implements DiskService {
                .build())
            .collect(Collectors.toList());
     }
+
+	@Override
+	public DiskGenreListResponse getAllGenre() {
+		List<DiskGenreDTO> genres = genreRepository.findAllByOrderByNameAsc();
+		return DiskGenreListResponse.builder()
+            .genres(genres)
+            .build();
+	}
+	
+	@Override
+	public DiskStyleListResponse getAllStyle() {
+		List<DiskStyleDTO> styles = styleRepository.findAllByOrderByNameAsc();
+		return DiskStyleListResponse.builder()
+            .styles(styles)
+            .build();
+	}
 
 }
