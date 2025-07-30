@@ -20,9 +20,11 @@ import cutalab.rachael.backend.dto.album.DiskDTO;
 import cutalab.rachael.backend.dto.album.DiskRequestDTO;
 import cutalab.rachael.backend.dto.album.DiskStatusDTO;
 import cutalab.rachael.backend.dto.service.DiskService;
+import cutalab.rachael.base.ui.component.DiskGenreStyleSearch;
 import cutalab.rachael.base.ui.util.SessionUtil;
 import cutalab.rachael.base.ui.view.costant.AlbumConstant;
 import cutalab.rachael.base.ui.view.costant.AlbumConstant.AlbumDialogType;
+import cutalab.rachael.base.ui.view.costant.AlbumConstant.AlbumGenreStyleType;
 import cutalab.rachael.base.ui.view.costant.UIConstant;
 
 public class AlbumDialog extends Dialog {
@@ -46,6 +48,8 @@ public class AlbumDialog extends Dialog {
     private ComboBox<DiskStatusDTO> coverStatusCombo;
     private TextArea noteArea;
 
+	private VerticalLayout genreStyleLayout;
+
     public AlbumDialog(AlbumDialogType dialogType, DiskDTO disk, DiskService diskService, Runnable onSuccess) {
         this.disk = disk != null ? disk : new DiskDTO();
         if (this.disk.getGenres() == null) this.disk.setGenres(new ArrayList<>());
@@ -56,7 +60,7 @@ public class AlbumDialog extends Dialog {
         this.onSuccess = onSuccess;
         this.binder = new Binder<>(DiskDTO.class);
 
-        setWidth("600px");
+        setWidth("50%");
         setMaxHeight("90%");
         setCloseOnEsc(true);
         setCloseOnOutsideClick(false);
@@ -109,6 +113,10 @@ public class AlbumDialog extends Dialog {
         
         var intLayout02 = new HorizontalLayout(yearField, reprintField);
         intLayout02.setWidthFull();
+        
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setMargin(false);
+        hl.setSizeFull();
 
         VerticalLayout main = new VerticalLayout(
             titleField, authorField, labelField, 
@@ -120,14 +128,25 @@ public class AlbumDialog extends Dialog {
         );
         main.setPadding(false);
         main.setSpacing(true);
+        
+        genreStyleLayout = new VerticalLayout();
+        genreStyleLayout.setPadding(false);
+        genreStyleLayout.setSpacing(true);
+        genreStyleLayout.setVisible(false);
+        
+        hl.add(main, genreStyleLayout);
+        add(hl);
 
-        add(main);
-
+        Button addGenreButton = new Button(AlbumConstant.ADD_GENRE, e -> buildGenreStyleLayout(AlbumGenreStyleType.GENRE));
+        Button addStyleButton = new Button(AlbumConstant.ADD_STYLE, e -> buildGenreStyleLayout(AlbumGenreStyleType.STYLE));
         Button cancelButton = new Button(UIConstant.CANCEL, e -> close());
         Button saveButton = new Button(UIConstant.SAVE, e -> save());
+        
+        addGenreButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        addStyleButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        getFooter().add(new HorizontalLayout(cancelButton, saveButton));
+        getFooter().add(new HorizontalLayout(addGenreButton, addStyleButton, cancelButton, saveButton));
     }
 
     private void bindFields() {
@@ -203,6 +222,14 @@ public class AlbumDialog extends Dialog {
         request.setStyles(disk.getStyles());
         request.setUserId(Long.valueOf(SessionUtil.getCurrentUser().getId()));
         return request;
+    }
+    
+    private void buildGenreStyleLayout(AlbumGenreStyleType type) {
+    	var layout = new DiskGenreStyleSearch(type, diskService);
+    	genreStyleLayout.removeAll();
+    	genreStyleLayout.add(layout);
+    	genreStyleLayout.setVisible(true);
+    	setWidth("70%");
     }
 
 }

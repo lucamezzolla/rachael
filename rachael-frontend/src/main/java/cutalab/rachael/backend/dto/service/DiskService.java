@@ -2,11 +2,13 @@ package cutalab.rachael.backend.dto.service;
 
 import java.util.List;
 
+import cutalab.rachael.backend.dto.album.DiskGenreListResponse;
 import cutalab.rachael.backend.dto.album.DiskListRequestDTO;
 import cutalab.rachael.backend.dto.album.DiskListResponseDTO;
 import cutalab.rachael.backend.dto.album.DiskRequestDTO;
 import cutalab.rachael.backend.dto.album.DiskResponseDTO;
 import cutalab.rachael.backend.dto.album.DiskStatusDTO;
+import cutalab.rachael.backend.dto.album.DiskStyleListResponse;
 
 public interface DiskService {
 
@@ -15,5 +17,7 @@ public interface DiskService {
     void createDisk(DiskRequestDTO request);
     void updateDisk(Integer id, DiskRequestDTO request);
     List<DiskStatusDTO> getAllStatuses();
+    DiskGenreListResponse getAllGenres();
+    DiskStyleListResponse getAllStyles();
     
 }

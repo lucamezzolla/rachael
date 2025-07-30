@@ -5,6 +5,10 @@ public class AlbumConstant {
     public enum AlbumDialogType {
         CREATE, UPDATE
     }
+    
+    public enum AlbumGenreStyleType {
+    	GENRE, STYLE
+    }
 
     // Titoli dialog
     public static final String DISK_TITLE_CREATE = "Aggiungi disco";
@@ -22,6 +26,8 @@ public class AlbumConstant {
     public static final String DISK_FIELD_COVER_STATUS = "Stato copertina";
     public static final String DISK_FIELD_NOTE = "Note";
     public static final String DISK_FIELD_ADD_USER = "Aggiungi disco";
+    public static final String ADD_GENRE = "Associa generi";
+	public static final String ADD_STYLE = "Associa stili";
 
     // Messaggi di validazione
     public static final String DISK_VALIDATION_TITLE = "Il titolo è obbligatorio";

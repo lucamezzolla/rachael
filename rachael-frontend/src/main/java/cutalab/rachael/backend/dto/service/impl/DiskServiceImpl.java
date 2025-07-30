@@ -40,5 +40,15 @@ public class DiskServiceImpl implements DiskService {
         return diskProxy.getAllStatuses().getBody();
     }
 
+	@Override
+	public DiskGenreListResponse getAllGenres() {
+		return diskProxy.getAllGenres().getBody();
+	}
+
+	@Override
+	public DiskStyleListResponse getAllStyles() {
+		return diskProxy.getAllStyles().getBody();
+	}
+
     
 }
