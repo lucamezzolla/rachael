@@ -31,7 +31,6 @@ Thumbs.db
 *.bak
 
 # ==== Docker ====
-rachael-mariadb-data/
 docker-data/
 **/docker-data/
 *.pid
