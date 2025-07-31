@@ -7,4 +7,5 @@ public class DiskSummaryDTO {
     private Integer id;
     private String author;
     private String title;
+    private String cover;
 }

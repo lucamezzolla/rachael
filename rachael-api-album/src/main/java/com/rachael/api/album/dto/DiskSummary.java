@@ -10,5 +10,6 @@ public class DiskSummary {
     private Integer id;
     private String author;
     private String title;
+    private String cover;
     
 }
