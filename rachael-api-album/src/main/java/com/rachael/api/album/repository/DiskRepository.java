@@ -11,7 +11,7 @@ import com.rachael.api.album.model.Disk;
 
 public interface DiskRepository extends JpaRepository<Disk, Integer> {
 	
-	@Query("SELECT new com.rachael.api.album.dto.DiskSummary(d.id, d.author, d.title) FROM Disk d WHERE d.userId = :userId")
+	@Query("SELECT new com.rachael.api.album.dto.DiskSummary(d.id, d.author, d.title, d.cover) FROM Disk d WHERE d.userId = :userId")
 	List<DiskSummary> findAllByUserId(@Param("userId") long userId);
 
 	

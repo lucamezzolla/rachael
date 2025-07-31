@@ -28,6 +28,15 @@ public class AlbumConstant {
     public static final String DISK_FIELD_ADD_USER = "Aggiungi disco";
     public static final String ADD_GENRE = "Associa generi";
 	public static final String ADD_STYLE = "Associa stili";
+	
+	// Paginazione
+	public static final String PAGINATION_FIRST = "⏮";
+	public static final String PAGINATION_PREV = "←";
+	public static final String PAGINATION_NEXT = "→";
+	public static final String PAGINATION_LAST = "⏭";
+	public static final String PAGINATION_PAGE_LABEL = "Pagina";
+	public static final String PAGINATION_PAGE_OF = "di";
+	public static final String PAGINATION_PAGE_ERROR = "Pagina fuori intervallo";
 
     // Messaggi di validazione
     public static final String DISK_VALIDATION_FIELD = "Campo obbligatorio";
